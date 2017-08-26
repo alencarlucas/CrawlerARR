@@ -5,25 +5,24 @@ var c = new Crawler({
     // This will be called for each crawled page
     callback : function (error, res, done) {
         if(error){
+            console.log("azedou");
             console.log(error);
         }else{
-            var $ = res.$;
-            // $ is Cheerio by default
-            //a lean implementation of core jQuery designed specifically for the server
-            console.log($("title").text());
+          var $ = res.$;
+          console.log(res.body);
         }
         done();
     }
 });
 
 // Queue just one URL, with default callback
-c.queue('http://www.amazon.com');
+c.queue(['https://www.facebook.com/SKYBrasil/', 'https://www.instagram.com/skybrasil/']);
 
 // Queue a list of URLs
-c.queue(['http://www.google.com/','http://www.yahoo.com']);
+//c.queue(['http://www.google.com/','http://www.yahoo.com']);
 
 // Queue URLs with custom callbacks & parameters
-c.queue([{
+/*c.queue([{
     uri: 'http://parishackers.org/',
     jQuery: false,
 
@@ -36,9 +35,6 @@ c.queue([{
         }
         done();
     }
-}]);
+}]);*/
 
 // Queue some HTML code directly without grabbing (mostly for tests)
-c.queue([{
-    html: '<p>This is a <strong>test</strong></p>'
-}]);
