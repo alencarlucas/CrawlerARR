@@ -1,4 +1,5 @@
 var Crawler = require("crawler");
+var iconv = require('iconv-lite');
 
 var c = new Crawler({
     maxConnections : 10,
@@ -9,30 +10,32 @@ var c = new Crawler({
             console.log(error);
         }else{
           var $ = res.$;
-          //console.log(utf8('cabeção'));
-          //console.log($);
-          console.log(removeTags($('#rhs_block').html()));
-          //console.log(removeTags("<asd>123</rtff><ddfdf><><dfdfdf>12323<>"));
+          var arrayData = removeTags($(res.options.parameter2).html());
+          arrayData.splice(0,0,res.options.parameter1);
+          console.log(arrayData);
         }
         done();
     }
 });
 
 // Queue just one URL, with default callback
-c.queue('https://www.google.com.br/search?q=Bee Movie a historia de uma abelha');
+c.queue([{
+      url:'https://pt.wikipedia.org/wiki/Bee_Movie',
+      parameter1:'wikipt',
+      parameter2:'.infobox_v2'
+    }]);
 
-function decode_utf8(s) {
-  return decodeURIComponent(escape(s));
-}
-
-function encode_utf8(s) {
-  return unescape(encodeURIComponent(s));
-}
-
+    function encode_utf8( s ){
+        return unescape( encodeURIComponent( s ) );
+    }
+/*
+  Função utilizada para remover as tag <> do html
+*/
 function removeTags(s){
   var flagErase = true;
+
+  s = lixo(s);
   s = s.substring(1);
-  //console.log("DEU " + s.charAt(0));
   for (var i = 0; i < s.length;) {
     //console.log("i = " + i + " " + " " + flagErase + " "+ s);
     if(s.charAt(i) == '<'){
@@ -51,21 +54,109 @@ function removeTags(s){
     else {
       i++;
     }
-    }
-    console.log('\n\n\n\n\n\n\n\n\n\n\n');
-    return splitNotNull(s);
+  }
+  return splitNotNull(s);
 }
 
+/*
+
+*/
 function splitNotNull(s){
   var arr = s.split('|');
-  var index = arr.indexOf("");
-  while (index > -1) {
-    arr.splice(index, 1);
-    index = arr.indexOf('');
+  for( let i of ["", '\n']){
+    eraseChar(arr, i);
+    console.log(i);
   }
   return arr;
 }
 
+function eraseChar(arr, c){
+  var index = arr.indexOf(c);
+  while (index > -1) {
+    arr.splice(index, 1);
+    index = arr.indexOf(c);
+  }
+}
+
+/*
+
+*/
+function lixo(s){
+  s = replaceAll(s,'&#xC1;',	"Á");
+  s = replaceAll(s,'&#xC2;',	'Â');
+  s = replaceAll(s,'&#xC3;',	'Ã');
+  s = replaceAll(s,'&#xC4;',	'Ä');
+  s = replaceAll(s,'&#xC5;',	'Å');
+  s = replaceAll(s,'&#xC6;',	'Æ');
+  s = replaceAll(s,'&#xC7;',	'Ç');
+  s = replaceAll(s,'&#xC8;',	'È');
+  s = replaceAll(s,'&#xC9;',	'É');
+  s = replaceAll(s,'&#xCA;',	'Ê');
+  s = replaceAll(s,'&#xCB;',	'Ë');
+  s = replaceAll(s,'&#xCC;',	'Ì');
+  s = replaceAll(s,'&#xCD;',	'Í');
+  s = replaceAll(s,'&#xCE;',	'Î');
+  s = replaceAll(s,'&#xCF;',	'Ï');
+  s = replaceAll(s,'&#xD0;',	'Ð');
+  s = replaceAll(s,'&#xD1;',	'Ñ');
+  s = replaceAll(s,'&#xD2;',	'Ò');
+  s = replaceAll(s,'&#xD3;',	'Ó');
+  s = replaceAll(s,'&#xD4;',	'Ô');
+  s = replaceAll(s,'&#xD5;',	'Õ');
+  s = replaceAll(s,'&#xD6;',	'Ö');
+  s = replaceAll(s,'&#xD7;',	'×');
+  s = replaceAll(s,'&#xD8;',	'Ø');
+  s = replaceAll(s,'&#xD9;',	'Ù');
+  s = replaceAll(s,'&#xDA;',	'Ú');
+  s = replaceAll(s,'&#xDB;',	'Û');
+  s = replaceAll(s,'&#xDC;',	'Ü');
+  s = replaceAll(s,'&#xDD;',	'Ý');
+  s = replaceAll(s,'&#xDE;',	'Þ');
+  s = replaceAll(s,'&#xDF;',	'ß');
+  s = replaceAll(s,'&#xE0;',	'à');
+  s = replaceAll(s,'&#xE1;',	'á');
+  s = replaceAll(s,'&#xE2;',	'â');
+  s = replaceAll(s,'&#xE3;',	'ã');
+  s = replaceAll(s,'&#xE4;',	'ä');
+  s = replaceAll(s,'&#xE5;',	'å');
+  s = replaceAll(s,'&#xE6;',	'æ');
+  s = replaceAll(s,'&#xE7;',	'ç');
+  s = replaceAll(s,'&#xE8;',	'è');
+  s = replaceAll(s,'&#xE9;',	'é');
+  s = replaceAll(s,"&#xEA;",	"ê");
+  s = replaceAll(s,'&#xEB;',	'ë');
+  s = replaceAll(s,'&#xEC;',	'ì');
+  s = replaceAll(s,'&#xED;',	'í');
+  s = replaceAll(s,'&#xEE;',	'î');
+  s = replaceAll(s,'&#xEF;',	'ï');
+  s = replaceAll(s,'&#xF0;',	'ð');
+  s = replaceAll(s,'&#xF1;',	'ñ');
+  s = replaceAll(s,'&#xF2;',	'ò');
+  s = replaceAll(s,'&#xF3;',	'ó');
+  s = replaceAll(s,'&#xF4;',	'ô');
+  s = replaceAll(s,'&#xF5;',	'õ');
+  s = replaceAll(s,'&#xF6;',	'ö');
+  s = replaceAll(s,'&#xF7;',	'÷');
+  s = replaceAll(s,'&#xF8;',	'ø');
+  s = replaceAll(s,'&#xF9;',	'ù');
+  s = replaceAll(s,'&#xFA;',	'ú');
+  s = replaceAll(s,'&#xFB;',	'û');
+  s = replaceAll(s,'&#xFC;',	'ü');
+  s = replaceAll(s,'&#xFD;',	'ý');
+  s = replaceAll(s,'&#xFE;',	'þ');
+  s = replaceAll(s,'&#xFF;',	'ÿ');
+  return s;
+}
+
+function replaceAll(str, find, replace) {
+    var index = str.search(find);
+    while (index > -1) {
+      console.log(replace + "\n" +  str);
+      str = str.replace(find, replace)
+      index = str.search(find);
+    }
+    return str;
+}
 // Queue a list of URLs
 //c.queue(['http://www.google.com/','http://www.yahoo.com']);
 
