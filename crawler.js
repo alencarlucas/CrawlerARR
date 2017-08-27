@@ -1,29 +1,73 @@
 var Crawler = require("crawler");
 var iconv = require('iconv-lite');
+var textParser = require('./textParser.js');
+var db = require('./DBManager.js');
 
+var selector = {'google':'#rhs_block','wikipedia':'.infobox_v2','adorocinema': '#content-start .col-left' };
+var k = 0;
 var c = new Crawler({
-    maxConnections : 10,
+    maxConnections : 300,
     // This will be called for each crawled page
     callback : function (error, res, done) {
-        if(error){
-            console.log("azedou");
-            console.log(error);
-        }else{
-          var $ = res.$;
-          var arrayData = removeTags($(res.options.parameter2).html());
-          arrayData.splice(0,0,res.options.parameter1);
-          console.log(arrayData);
+        try{
+          if(error){
+              console.log("azedou");
+              console.log(error);
+          }else{
+            var $ = res.$;
+            //console.log($(selector[res.options.fonte]).html());
+            //console.log($(selector[res.options.fonte]).text());
+            var arrayData = removeTags($(selector[res.options.fonte]).html().trim());
+            arrayData.splice(0,0,res.options.fonte);
+            if(res.options.fonte == 'adorocinema')
+              for(i in arrayData){
+                arrayData[i] = arrayData[i].trim();
+
+              }
+              //arrayData = eraseChar(arrayData,'');
+            console.log(arrayData);
+            console.log(++k);
+            //console.log("OLHAQUELEGAL&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            //console.log(arrayData);
+            //console.log("jAFOI&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+
+            db.insert(textParser.parse(res.options.nome,arrayData,res.options.id,res.options.fonte));
+            db.insertFilme(res.options.nome,res.options.id);
+          }
+          done();
         }
-        done();
+        catch(error){
+          console.log("NAO ACHOU CALLBACK " + res.options.url);
+        }
     }
 });
 
 // Queue just one URL, with default callback
-c.queue([{
-      url:'https://pt.wikipedia.org/wiki/Bee_Movie',
-      parameter1:'wikipt',
-      parameter2:'.infobox_v2'
-    }]);
+exports.run = function(){
+  var arr = db.selectFilmeLog();
+  console.log(arr);
+
+}
+exports.queueInsert = function(elements){
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+    c.queue(elements);
+}
+// c.queue(
+//   [
+//     {
+//       url:'https://pt.wikipedia.org/wiki/Bee_Movie',
+//       parameter1:'wikipt',
+//       parameter2:'.infobox_v2',
+//       parameter3:'Bee Movie'
+//     },
+//     {
+//         url:'https://pt.wikipedia.org/wiki/The_Hangover',
+//         parameter1:'wikipt',
+//         parameter3:'Hangover',
+//         parameter2:'.infobox_v2',
+//       }
+//     ]
+//   );
 
     function encode_utf8( s ){
         return unescape( encodeURIComponent( s ) );
@@ -42,8 +86,8 @@ function removeTags(s){
       flagErase = true;
     }
     else if (s.charAt(i) == '>') {
+        s = s.substring(0,i)+ '|' + s.substring(i+1);
       flagErase = false;
-      s = s.substring(0,i)+ '|' + s.substring(i+1);
     }
     if(flagErase == true){
       if(i != 0)
@@ -65,10 +109,13 @@ function splitNotNull(s){
   var arr = s.split('|');
   for( let i of ["", '\n']){
     eraseChar(arr, i);
-    console.log(i);
   }
+
+
   return arr;
 }
+
+
 
 function eraseChar(arr, c){
   var index = arr.indexOf(c);
@@ -76,6 +123,7 @@ function eraseChar(arr, c){
     arr.splice(index, 1);
     index = arr.indexOf(c);
   }
+
 }
 
 /*
@@ -151,7 +199,6 @@ function lixo(s){
 function replaceAll(str, find, replace) {
     var index = str.search(find);
     while (index > -1) {
-      console.log(replace + "\n" +  str);
       str = str.replace(find, replace)
       index = str.search(find);
     }
@@ -233,3 +280,4 @@ Orçamento	US$ 150 milhões
 Receita	US$ 287 594 577
 
 */
+module.export = 'rocali';
