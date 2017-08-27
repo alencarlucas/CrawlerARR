@@ -1,6 +1,6 @@
 
 
-console.log('Hello parser');
+// console.log('Hello parser');
 
 var sinonimos = {
 	original : [

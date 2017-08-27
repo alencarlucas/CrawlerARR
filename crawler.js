@@ -44,13 +44,20 @@ var c = new Crawler({
 });
 
 // Queue just one URL, with default callback
-exports.run = function(){
-  var arr = db.selectFilmeLog();
-  console.log(arr);
-  //db.loadBaseFilms2();
-  // db.loadFilmeLogs();
-
+exports.processFilms = function(){
+  db.selectFilmeLog();
 }
+
+exports.processUrls = function(){
+  db.loadFilmeLogs();
+}
+
+exports.loadBaseFilms = function(){
+    console.log('loadBaseFilms');
+  // db.loadBaseFilms1();
+  // db.loadBaseFilms2();
+}
+
 exports.queueInsert = function(elements){
     console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     c.queue(elements);
