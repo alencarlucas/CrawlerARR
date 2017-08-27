@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/alencarlucas/CrawlerARR#readme",
   "dependencies": {
-    "express": "^4.15.4"
+    "cheerio": "^1.0.0-rc.2",
+    "console-log-html": "^2.0.2",
+    "crawler": "^1.0.5",
+    "express": "^4.15.4",
+    "mysql": "^2.13.0"
   }
 }
