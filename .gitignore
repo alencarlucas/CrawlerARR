@@ -1,0 +1,8 @@
+# VSCode Files
+.vscode/
+
+# Temporary Files
+*~
+
+# Node Modules Files
+node_modules/
