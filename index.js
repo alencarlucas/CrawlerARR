@@ -1,8 +1,6 @@
 var eventEmitter = require('events').EventEmitter;
 var express = require('express');
 var app = express();
-// var crawl = require('./crawler.js');
-var adorocinema = require('./adorocinema.js');
 
 app.set('port', (process.env.PORT || 3000));
 
