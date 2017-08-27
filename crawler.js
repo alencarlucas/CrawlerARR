@@ -32,12 +32,13 @@ var c = new Crawler({
             //console.log("jAFOI&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
             db.insert(textParser.parse(res.options.nome,arrayData,res.options.id,res.options.fonte));
-            db.insertFilme(res.options.nome,res.options.id);
+            db.updateFilmeLog(res.options.id,'1');
+            //db.insertFilme(res.options.nome,res.options.id);
           }
           done();
         }
         catch(error){
-          console.log("NAO ACHOU CALLBACK " + res.options.url);
+          console.log("NAO ACHOU CALLBACK "+ error + res.options.url);
         }
     }
 });
@@ -46,6 +47,8 @@ var c = new Crawler({
 exports.run = function(){
   var arr = db.selectFilmeLog();
   console.log(arr);
+  //db.loadBaseFilms2();
+  // db.loadFilmeLogs();
 
 }
 exports.queueInsert = function(elements){

@@ -3,10 +3,19 @@
 console.log('Hello parser');
 
 var sinonimos = {
+	original : [
+		'Título',
+	],
+	sinopse : [
+		'Sinopse',
+		'Resumo',
+		'detalhe'
+	],
 	lancamento : [
 		'Ano de',
 		'Lancamento',
-		'Lançamento'
+		'Lançamento',
+		'Ano'
 	],
 	lancamentoOpts : [
 			'Filme de',
@@ -27,6 +36,9 @@ var sinonimos = {
 		'Diretor',
 		'Direção'
 	],
+	criador : [
+		'Criador'
+	],
 	roteiro : [
 		'Roteiro'
 	],
@@ -42,39 +54,78 @@ var sinonimos = {
 	],
 	idioma : [
 		'Idioma',
-		'Idiomas'
+		'Idiomas',
+		'Pais',
+		'País'
 	],
 	genero : [
 		'Género',
-		'Genero'
+		'Genero',
+		'Gênero',
+		'Tipo de'
 	],
 	generoOpts : [
 		'comedia',
-		'aventura'
+		'aventura',
+		'Terror',
+		'Comédia', 
+		'ação',
+		'acao', 
+		'Fantasia',
+		'drama', 
+		'policial'
 	],
 	universo : [
 		'Cronologia'
+	],
+	musicas : [
+		'Música',
+		'musica',
+		'Canção'
+	],
+	min : [
+		'min'
+	],
+	duracao : [
+		'Duração',
+		'Duracao'
+	],
+	sinonimos : [
+		'PT',
+		'BR'
+	],
+	numTemporadas : [
+		'Temporadas',
+	],
+	numEpisodios : [
+		'Episódios',
+	],
+	isSerie : [
+		'Temporadas',
+		'Episódios',
 	],
 	other : [
 		'Orçamento',
 		'Cinematografia',
 		'Edição',
-		'Distribuição'
+		'Distribuidor',
+		'Distribuição',
+		'Emissora',
+		'Local',
+		'Emissora',
+		'Período',
+		'Gravador',
+		'relacionada',
+		'relacionado',
+		'Classificação',
+		'Bilheterias'
 	],
 	otherOpts : [
 		'$',
 		'milhões'
 	],
-	musicas : [
-		'Música',
-		'musica'
-	],
-	min : [
-		'min'
-	],
-	sinonimos : [
-		'PT',
-		'BR'
+	livro : [
+	'Livro'
 	]
 }
 
@@ -82,65 +133,80 @@ var filmeProps = {
 	'nomeFilme' : {
 		'currentKeywords' : []
 	},
-	'nomeOriginal' :{},
+	'nomeOriginal' :{
+		'upcomingKeywords' : sinonimos.original
+	},  
 	'franquia' : {},
 	'universo' : {
 		'upcomingKeywords' : sinonimos.universo
-	},
+	}, 
 	'sinonimos' : {
 		'passedKeywords' : sinonimos.sinonimos
-	},
+	}, 
 	'trilhaSonora' : {
 		'upcomingKeywords' : sinonimos.musicas
-	},
+	}, 
 	'produtoras' : {
 		'upcomingKeywords' : sinonimos.produtora
-	},
+	}, 
 	'anoLancamento' : {
 		'currentKeywords' : sinonimos.lancamentoOpts
-	},
+	}, 
 	'duracao' : {
-		'passedKeywords' : sinonimos.min
-	},
-	'classificacao' : {},
+		'passedKeywords' : sinonimos.min,
+		'upcomingKeywords' : sinonimos.duracao
+	}, 
+	'classificacao' : {}, 
 	'idiomaOriginal' : {
 		'upcomingKeywords' : sinonimos.idioma
-	},
-	'idiomas' : {},
-	'livro' : {},
+	}, 
+	'idiomas' : {}, 
+	'livro' : {
+		'upcomingKeywords' : sinonimos.livro, 
+	}, 
 	'sinopse' : {
-		'currentKeywords' : []
-	},
+		'currentKeywords' : sinonimos.sinopse,
+		'minSize' : 50
+	}, 
 	'genero' : {
-		'upcomingKeywords' : sinonimos.genero,
+		'upcomingKeywords' : sinonimos.genero, 
 		'currentKeywords' : sinonimos.generoOpts,
 
-	},
-	'keywords' : {},
-	'tema' : {},
+	}, 
+	'keywords' : {}, 
+	'tema' : {}, 
 	'direcao' : {
-		'upcomingKeywords' : sinonimos.diretor
-	},
-	'criacao' : {},
+		'upcomingKeywords' : sinonimos.diretor 
+	}, 
+	'criacao' : {
+		'upcomingKeywords' : sinonimos.criador 
+	}, 
 	'producao' : {
-		'upcomingKeywords' : sinonimos.producao
-	},
+		'upcomingKeywords' : sinonimos.producao 
+	}, 
 	'roteiro' : {
-		'upcomingKeywords' : sinonimos.roteiro
-	},
-	'isSerie' : {},
-	'status' : {},
-	'numeroTemporadas' : {},
-	'numeroEpisodios' : {},
+		'upcomingKeywords' : sinonimos.roteiro 
+	}, 
+	'isSerie' : {
+		'currentKeywords' : sinonimos.isSerie,
+	}, 
+	'status' : {}, 
+	'numeroTemporadas' : {
+		'upcomingKeywords' : sinonimos.numTemporadas
+	}, 
+	'numeroEpisodios' : {
+		'upcomingKeywords' : sinonimos.numEpisodios
+	}, 
 	'duracaoMediaEpisodios' : {},
 	'elenco' : {
 		'upcomingKeywords' : sinonimos.elenco
-	},
+	}, 
 	'other' : {
-		'upcomingKeywords' : sinonimos.other,
+		'upcomingKeywords' : sinonimos.other, 
 		'currentKeywords' : sinonimos.otherOpts,
 	}
 };
+
 
 function isIncludedInKeyWords(keywords,text) {
 	//console.log('i');
@@ -164,12 +230,12 @@ function addValue(returnArray,filmeProp,value,keyword = null,secondaryKeyword = 
 	}
 	if (keyword && keyword.includes('other')){
 		//filmeProp['value'] += secondaryKeyword + ' : ' + value + '|';
-		returnArray[keyword] += secondaryKeyword + ' : ' + value + '|';
+		returnArray[keyword] += secondaryKeyword + ' : ' + value + ',';
 	} else {
 		//filmeProp['value'] += value + '|';
-		returnArray[keyword] += value + '|';
+		returnArray[keyword] += value + ',';
 	}
-
+	
 }
 
 var artigoSin = [
@@ -179,6 +245,10 @@ var artigoSin = [
 ]
 
 var allKeywords = [];
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 function isKeyword(text) {
 	if (text) {
@@ -192,7 +262,7 @@ function isKeyword(text) {
 }
 
 function isPerson(text){
-	if (isKeyword(text)) {
+	if (isKeyword(text) || isNumeric(text)) {
 		return false;
 	}
 	return true;
@@ -201,10 +271,10 @@ function isPerson(text){
 
  exports.parse = function(title,textArray,idFilme,fonte){
 	// console.log("Title"+title);
+	var returnArray = [];
+	returnArray['idFilme'] = idFilme;
+	returnArray['fonte'] = fonte;
 
-  var returnArray = [];
-  returnArray['idFilme'] = idFilme;
-  returnArray['fonte'] = fonte;
 	for (var key in sinonimos) {
 		// console.log(key+' = '+sinonimos[key]);
 		allKeywords = allKeywords.concat(sinonimos[key]);
@@ -213,17 +283,18 @@ function isPerson(text){
 	Object.keys(filmeProps).forEach(function(key) {
 		filmeProps[key]['value'] = '';
 	});
-
+	
 	var textArray = textArray.filter(function (text) {
-		return !text.includes('&#x');
+		return !text.includes('&#x') && text.length > 0;
 	});
 
-	// console.log(textArray);
+	console.log(textArray);
 	// console.log(textArray);
 	filmeProps['nomeFilme']['currentKeywords'].push(title);
 
 	var getNextPerson = { get:false,key:null,secondaryKey:null};
 
+	
 
 	for (var index in textArray) {
 		var text = textArray[index];
@@ -249,15 +320,17 @@ function isPerson(text){
 					if (!isKeyword(passedText)){
 						addValue(returnArray,filmeProps[key],passedText,key);
 					}
+				} else if (filmeProps[key]['minSize'] && text.length > filmeProps[key]['minSize']) {
+					addValue(returnArray,filmeProps[key],text,key);
 				}
 			});
 		}
 	}
-  console.log("RETORNOARRAY$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-  console.log(returnArray);
+	console.log(returnArray);
 	return returnArray;
 
 }
+
 module.export = "rocali";
 
 // var result = parse('Hangover',hangover);
