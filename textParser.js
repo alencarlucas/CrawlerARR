@@ -51,6 +51,7 @@ var beeMovie1 = [ 'Bee Movie - A História de uma Abelha',
   '2012' ];
 
 var hangover = [ 'wikipt',
+'Física Divertida|Física Divertida é um programa educativo formado a partir de parceria entre a TV Rá-Tim-Bum e a Mad Science São Paulo. O programa estreou em agosto de 2010. No ano de 2011 está em sua segunda temporada e é dirigido por Mário Masetti. |',
   'The Hangover',
   'A Ressaca',
   '&#xA0;(',
@@ -118,7 +119,70 @@ var hangover = [ 'wikipt',
   'IMDb',
   ' (em inglês)' ];
 
+var program = [ 'Movie Talk',
+  'Programa de TV',
+  'Primeiro episódio: ',
+  'setembro de 2012',
+  'Episódio final: ',
+  'novembro de 2012',
+  'Número De Temporadas: ',
+  '1',
+  'Emissora original: ',
+  'RTÉ One',
+  'Número De Episódios: ',
+  '10',
+  'Gênero: ',
+  'Entrevista',
+  'Local: ',
+  'RTÉ Television Centre',
+  ', ',
+  'Donnybrook, Dublin',
+  ', ',
+  'Dublin 4',
+  ', ',
+  'Irlanda' ];
 
+var guardioes = [ 'Guardiões da Galáxia',
+  'Filme de 2014',
+  'O aventureiro do espaço Peter Quill torna-se presa de caçadores de recompensas depois que rouba a esfera de um vilão traiçoeiro, Ronan. Para escapar do perigo, ele faz uma aliança com um grupo de quatro extraterrestres. Quando Quill descobre que a esfera roubada possui um poder capaz de mudar os rumos do universo, ele e seu grupo deverão proteger o objeto para salvar o futuro da galáxia.',
+  'Data de lançamento: ',
+  '31 de julho de 2014 (',
+  'Brasil',
+  ')',
+  'Direção: ',
+  'James Gunn',
+  'Duração: ',
+  '2h 2m',
+  'Música composta por: ',
+  'Tyler Bates',
+  'Canção original: ',
+  'Come and Get Your Love',
+  'Elenco',
+  'Chris Pratt',
+  'Senhor das Estrelas',
+  'Zoë Saldaña',
+  'Gamora',
+  'James Gunn',
+  'Maskless Sakaaran',
+  'Dave Batista',
+  'Drax, O Destruidor',
+  'Vin Diesel',
+  'Groot',
+  'Michael Rooker',
+  'Yondu',
+  'Pesquisas relacionadas',
+  'Guardiões da Galáxia Vol. 2',
+  '2017',
+  'Vingador... Era de Ultron',
+  '2015',
+  'Os Vingador... The Aven...',
+  '2012',
+  'Homem&#x2011;F...',
+  '2015',
+  'Thor: O Mundo Sombrio',
+  '2013',
+  'Capitão América 2: O Soldad...',
+  '2014' ];
 
 var sinonimos = {
 	lancamento : [
@@ -145,6 +209,9 @@ var sinonimos = {
 		'Diretor',
 		'Direção'
 	],
+	criador : [
+		'Criador'
+	],
 	roteiro : [
 		'Roteiro'
 	],
@@ -160,39 +227,74 @@ var sinonimos = {
 	],
 	idioma : [
 		'Idioma',
-		'Idiomas'
+		'Idiomas',
+		'Pais',
+		'País'
 	],
 	genero : [
 		'Género',
-		'Genero'
+		'Genero',
+		'Gênero'
 	],
 	generoOpts : [
 		'comedia',
-		'aventura'
+		'aventura',
+		'Terror',
+		'Comédia', 
+		'ação',
+		'acao', 
+		'Fantasia',
+		'drama', 
+		'policial'
 	],
 	universo : [
 		'Cronologia'
+	],
+	musicas : [
+		'Música',
+		'musica',
+		'Canção'
+	],
+	min : [
+		'min'
+	],
+	duracao : [
+		'Duração',
+		'Duracao'
+	],
+	sinonimos : [
+		'PT',
+		'BR'
+	],
+	numTemporadas : [
+		'Temporadas',
+	],
+	numEpisodios : [
+		'Episódios',
+	],
+	isSerie : [
+		'Temporadas',
+		'Episódios',
 	],
 	other : [
 		'Orçamento',
 		'Cinematografia',
 		'Edição',
-		'Distribuição'
+		'Distribuição',
+		'Emissora',
+		'Local',
+		'Emissora',
+		'Período',
+		'Gravador',
+		'relacionada',
+		'relacionado'
 	],
 	otherOpts : [
 		'$',
 		'milhões'
 	],
-	musicas : [
-		'Música',
-		'musica'
-	],
-	min : [
-		'min'
-	],
-	sinonimos : [
-		'PT',
-		'BR'
+	livro : [
+	'Livro'
 	]
 }
 
@@ -218,16 +320,20 @@ var filmeProps = {
 		'currentKeywords' : sinonimos.lancamentoOpts
 	}, 
 	'duracao' : {
-		'passedKeywords' : sinonimos.min
+		'passedKeywords' : sinonimos.min,
+		'upcomingKeywords' : sinonimos.duracao
 	}, 
 	'classificacao' : {}, 
 	'idiomaOriginal' : {
 		'upcomingKeywords' : sinonimos.idioma
 	}, 
 	'idiomas' : {}, 
-	'livro' : {}, 
+	'livro' : {
+		'upcomingKeywords' : sinonimos.livro, 
+	}, 
 	'sinopse' : {
-		'currentKeywords' : []
+		'currentKeywords' : [],
+		'minSize' : 50
 	}, 
 	'genero' : {
 		'upcomingKeywords' : sinonimos.genero, 
@@ -239,17 +345,25 @@ var filmeProps = {
 	'direcao' : {
 		'upcomingKeywords' : sinonimos.diretor 
 	}, 
-	'criacao' : {}, 
+	'criacao' : {
+		'upcomingKeywords' : sinonimos.criador 
+	}, 
 	'producao' : {
 		'upcomingKeywords' : sinonimos.producao 
 	}, 
 	'roteiro' : {
 		'upcomingKeywords' : sinonimos.roteiro 
 	}, 
-	'isSerie' : {}, 
+	'isSerie' : {
+		'currentKeywords' : sinonimos.isSerie,
+	}, 
 	'status' : {}, 
-	'numeroTemporadas' : {}, 
-	'numeroEpisodios' : {}, 
+	'numeroTemporadas' : {
+		'upcomingKeywords' : sinonimos.numTemporadas
+	}, 
+	'numeroEpisodios' : {
+		'upcomingKeywords' : sinonimos.numEpisodios
+	}, 
 	'duracaoMediaEpisodios' : {},
 	'elenco' : {
 		'upcomingKeywords' : sinonimos.elenco
@@ -259,6 +373,7 @@ var filmeProps = {
 		'currentKeywords' : sinonimos.otherOpts,
 	}
 };
+
 
 function isIncludedInKeyWords(keywords,text) {
 	//console.log('i');
@@ -282,10 +397,10 @@ function addValue(returnArray,filmeProp,value,keyword = null,secondaryKeyword = 
 	}
 	if (keyword && keyword.includes('other')){
 		//filmeProp['value'] += secondaryKeyword + ' : ' + value + '|';
-		returnArray[keyword] += secondaryKeyword + ' : ' + value + '|';
+		returnArray[keyword] += secondaryKeyword + ' : ' + value + ',';
 	} else {
 		//filmeProp['value'] += value + '|';
-		returnArray[keyword] += value + '|';
+		returnArray[keyword] += value + ',';
 	}
 	
 }
@@ -297,6 +412,10 @@ var artigoSin = [
 ]
 
 var allKeywords = [];
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 function isKeyword(text) {
 	if (text) {
@@ -310,16 +429,18 @@ function isKeyword(text) {
 }
 
 function isPerson(text){
-	if (isKeyword(text)) {
+	if (isKeyword(text) || isNumeric(text)) {
 		return false;
 	}
 	return true;
 
 }
 
-function parse(title,textArray){
+function parse(title,textArray,idFilme,fonte){
 	// console.log("Title"+title);
-	
+	var returnArray = [];
+	returnArray['idFilme'] = idFilme;
+	returnArray['fonte'] = fonte;
 
 	for (var key in sinonimos) {
 		// console.log(key+' = '+sinonimos[key]);
@@ -340,7 +461,7 @@ function parse(title,textArray){
 
 	var getNextPerson = { get:false,key:null,secondaryKey:null};
 
-	var returnArray = [];
+	
 
 	for (var index in textArray) {
 		var text = textArray[index];
@@ -366,6 +487,8 @@ function parse(title,textArray){
 					if (!isKeyword(passedText)){
 						addValue(returnArray,filmeProps[key],passedText,key);
 					}
+				} else if (filmeProps[key]['minSize'] && text.length > filmeProps[key]['minSize']) {
+					addValue(returnArray,filmeProps[key],text,key);
 				}
 			});
 		}
@@ -374,5 +497,5 @@ function parse(title,textArray){
 
 }
 
-// var result = parse('Hangover',hangover);
-// console.log(result);
+var result = parse('Talk',program,7,'google');
+console.log(result);
